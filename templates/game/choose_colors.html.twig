@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Étape 1 : Choisir un ordre des couleurs{% endblock %}
+
+{% block body %}
+<div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 max-w-[700px] w-full text-center">
+    <h1 class="text-text-dark text-[2em] mb-2.5 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
+        Étape 1 : Choisir un ordre des couleurs 🎨
+    </h1>
+    <p class="text-text-medium text-[1.1em] mb-10">
+        Voici l'ordre proposé pour cette partie :
+    </p>
+
+    <div class="flex flex-col gap-5 my-10">
+        {% for color in colorOrder %}
+        <div class="bg-gradient-item p-6 rounded-[15px] flex items-center justify-center gap-5 shadow-[0_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15)]">
+            <div class="bg-gradient-primary text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-[1.2em]">
+                {{ loop.index }}
+            </div>
+            <div class="text-[3em]">
+                {{ color.symbol }}
+            </div>
+            <div class="text-[1.5em] font-bold text-text-dark">
+                {{ color.name }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="flex gap-4 justify-center mt-5">
+        <a 
+          href="{{ path('app_choose_colors', {'new': 1}) }}" 
+          class="bg-gradient-primary text-white px-12 py-4 text-[1.2em] font-bold rounded-[50px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_4px_15px_rgba(102,126,234,0.4)] inline-block hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)]">
+            Nouveau ordre
+        </a>
+        <a 
+          href="{{ path('app_confirm_colors') }}"
+          class="bg-gradient-primary text-white px-12 py-4 text-[1.2em] font-bold rounded-[50px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_4px_15px_rgba(102,126,234,0.4)] inline-block hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)]"
+        >
+            Confirmer cet ordre
+        </a>
+    </div>
+</div>
+{% endblock %}
