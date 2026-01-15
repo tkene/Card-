@@ -2,91 +2,22 @@
 
 {% block title %}Bataille - Accueil{% endblock %}
 
-{% block stylesheets %}
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-
-    .container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 40px;
-        max-width: 600px;
-        width: 100%;
-        text-align: center;
-    }
-
-    .card-icon {
-        font-size: 4em;
-        margin: 20px 0;
-    }
-
-    h1 {
-        color: #333;
-        font-size: 2.5em;
-        margin-bottom: 20px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    p {
-        color: #666;
-        font-size: 1.1em;
-        margin-bottom: 20px;
-    }
-
-    .btn-start {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 18px 50px;
-        font-size: 1.2em;
-        font-weight: bold;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 30px;
-    }
-
-    .btn-start:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-
-    .btn-start:active {
-        transform: translateY(0);
-    }
-</style>
-{% endblock %}
-
 {% block body %}
-<div class="container">
-    <div class="card-icon">🃏</div>
-    <h1>Jeu de Bataille</h1>
-    <p>
+<div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 max-w-[600px] w-full text-center">
+    <div class="text-[4em] my-5">🃏</div>
+    <h1 class="text-text-dark text-[2.5em] mb-5 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
+        Jeu de Bataille
+    </h1>
+    <p class="text-text-medium text-[1.1em] mb-5">
         Affrontez l'ordinateur dans une partie de bataille !<br>
         La carte la plus forte remporte le point.
     </p>
     
-    <a href="{{ path('app_choose_colors') }}" class="btn-start">
+    <a 
+        href="{{ path('app_choose_colors') }}" 
+        class="bg-gradient-primary text-white px-12 py-[18px] text-[1.2em] font-bold rounded-[50px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_4px_15px_rgba(102,126,234,0.4)] inline-block mt-8 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)] active:translate-y-0"
+    >
         Commencer
     </a>
 </div>
 {% endblock %}
-
