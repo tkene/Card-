@@ -7,7 +7,7 @@
 {# {{ dump(app.session.all) }} #}
 
 <div class="w-full min-h-screen flex items-center justify-center p-5">
-    <div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 w-full max-w-[95vw] max-h-[95vh] overflow-auto">
+    <div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 w-full max-w-[95vw] max-h-[95vh] overflow-y-auto overflow-x-hidden">
         <div class="text-center mb-10">
             <h1 class="text-text-dark text-[2em] mb-2.5 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
                 Étape 4 : Main non triée 🙃
@@ -17,25 +17,21 @@
             </p>
         </div>
 
-        <div class="w-full pb-5">
-            <div class="bg-gray-50 rounded-[15px] p-6 border-2 border-gray-200 overflow-hidden w-full" style="box-sizing: border-box;">
-                <div class="grid grid-cols-5 gap-4 auto-rows-fr">
-                    {% for card in drawnCards %}
-                    <div class="bg-gradient-item p-6 rounded-[15px] flex flex-col items-center justify-center gap-3 shadow-[0_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15)] w-full">
-                        <div class="text-[3em]">
-                            {{ card.symbol }}
-                        </div>
-                        <div class="text-[1.1em] font-bold text-text-dark text-center">
-                            {{ card.value }}
-                        </div>
-                        <div class="text-[1em] text-text-medium text-center">
-                            {{ card.color }}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+				<div class="flex flex-wrap gap-4 mb-10 w-full">
+						{% for card in drawnCards %}
+						<div class="bg-gradient-item p-6 rounded-[15px] flex flex-col items-center justify-center gap-3 shadow-[0_4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15)]" style="width: calc(20% - 0.8rem); flex: 0 0 calc(20% - 0.8rem); box-sizing: border-box;">
+								<div class="text-[3em]">
+										{{ card.symbol }}
+								</div>
+								<div class="text-[1.1em] font-bold text-text-dark text-center">
+										{{ card.value }}
+								</div>
+								<div class="text-[1em] text-text-medium text-center">
+										{{ card.color }}
+								</div>
+						</div>
+						{% endfor %}
+				</div>
 
         <div class="flex gap-4 justify-center mt-10">
             <a 
@@ -48,4 +44,3 @@
     </div>
 </div>
 {% endblock %}
-

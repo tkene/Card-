@@ -4,7 +4,7 @@
   "description": "Card game project with Tailwind CSS",
   "scripts": {
     "build-css": "tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --minify",
-    "watch-css": "tailwindcss -i ./assets/styles/app.css -o ./public/build/app.css --watch"
+    "start": "php -S localhost:8000 -t public"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.1"

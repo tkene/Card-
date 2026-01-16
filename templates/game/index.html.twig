@@ -3,16 +3,11 @@
 {% block title %}Bataille - Accueil{% endblock %}
 
 {% block body %}
-<div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 max-w-[600px] w-full text-center">
+<div class="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-10 max-w-[700px] w-full text-center">
     <div class="text-[4em] my-5">🃏</div>
-    <h1 class="text-text-dark text-[2.5em] mb-5 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
-        Jeu de Bataille
-    </h1>
-    <p class="text-text-medium text-[1.1em] mb-5">
-        Affrontez l'ordinateur dans une partie de bataille !<br>
-        La carte la plus forte remporte le point.
-    </p>
-    
+    <h1 class="text-text-dark text-[2em] mb-2.5 drop-shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
+        Jeu de cartes
+    </h1>    
     <a 
         href="{{ path('app_choose_colors') }}" 
         class="bg-gradient-primary text-white px-12 py-[18px] text-[1.2em] font-bold rounded-[50px] cursor-pointer transition-all duration-300 ease-in-out shadow-[0_4px_15px_rgba(102,126,234,0.4)] inline-block mt-8 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(102,126,234,0.6)] active:translate-y-0"
