@@ -36,4 +36,59 @@ class GameService
         
         return $hand;
     }
+
+    /**
+     * Réorganise l'ordre d'un tableau en déplaçant un élément vers le haut ou le bas
+     * 
+     * @param array $array Le tableau à réorganiser
+     * @param int $index L'index de l'élément à déplacer
+     * @param string $direction 'up' pour monter, 'down' pour descendre
+     * @return array|null Le nouveau tableau réorganisé, ou null si le déplacement est invalide
+     */
+    public function reorderArray(array $array, int $index, string $direction): ?array
+    {
+        $newIndex = $direction === 'up' ? $index - 1 : $index + 1;
+        
+        // Vérifier que les indices sont valides
+        if ($newIndex < 0 || $newIndex >= count($array)) {
+            return null;
+        }
+        
+        // Créer une copie pour ne pas modifier l'original
+        $reorderedArray = $array;
+        
+        // Échanger les éléments
+        [$reorderedArray[$index], $reorderedArray[$newIndex]] = [
+            $reorderedArray[$newIndex], 
+            $reorderedArray[$index]
+        ];
+        
+        return $reorderedArray;
+    }
+
+    /**
+     * Réorganise l'ordre des couleurs en déplaçant un élément vers le haut ou le bas
+     * 
+     * @param array $colorOrder L'ordre actuel des couleurs
+     * @param int $index L'index de l'élément à déplacer
+     * @param string $direction 'up' pour monter, 'down' pour descendre
+     * @return array|null Le nouvel ordre des couleurs, ou null si le déplacement est invalide
+     */
+    public function reorderColors(array $colorOrder, int $index, string $direction): ?array
+    {
+        return $this->reorderArray($colorOrder, $index, $direction);
+    }
+
+    /**
+     * Réorganise l'ordre des valeurs en déplaçant un élément vers le haut ou le bas
+     * 
+     * @param array $valuesOrder L'ordre actuel des valeurs
+     * @param int $index L'index de l'élément à déplacer
+     * @param string $direction 'up' pour monter, 'down' pour descendre
+     * @return array|null Le nouvel ordre des valeurs, ou null si le déplacement est invalide
+     */
+    public function reorderValues(array $valuesOrder, int $index, string $direction): ?array
+    {
+        return $this->reorderArray($valuesOrder, $index, $direction);
+    }
 }

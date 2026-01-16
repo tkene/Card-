@@ -34,12 +34,32 @@ class GameController extends AbstractController
     }
 
     #[Route('/choose-colors', name: 'app_choose_colors')]
-    public function chooseColors(SessionInterface $session): Response
+    public function chooseColors(SessionInterface $session, Request $request): Response
     {
-        $this->gameStateService->initializeGame($session);
+        $new = $request->query->get('new', false);
+        $move = $request->query->get('move');
+        $index = $request->query->get('index');
         
-        $colorOrder = $this->cardService->generateRandomColorOrder();
-        $this->gameStateService->setColorOrder($session, $colorOrder);
+        // Si on demande un nouvel ordre ou si l'ordre n'existe pas, on génère un nouvel ordre
+        if ($new || $this->gameStateService->getColorOrder($session) === null) {
+            $this->gameStateService->initializeGame($session);
+            $colorOrder = $this->cardService->generateRandomColorOrder();
+            $this->gameStateService->setColorOrder($session, $colorOrder);
+        } else {
+            // Récupérer l'ordre existant
+            $colorOrder = $this->gameStateService->getColorOrder($session);
+            
+            // Gérer le déplacement si demandé
+            if ($move !== null && $index !== null) {
+                $index = (int) $index;
+                $reorderedColors = $this->gameService->reorderColors($colorOrder, $index, $move);
+                
+                if ($reorderedColors !== null) {
+                    $this->gameStateService->setColorOrder($session, $reorderedColors);
+                    $colorOrder = $reorderedColors;
+                }
+            }
+        }
 
         return $this->render('game/choose_colors.html.twig', [
             'colorOrder' => $colorOrder,
@@ -58,14 +78,35 @@ class GameController extends AbstractController
     }
 
     #[Route('/choose-values', name: 'app_choose_values')]
-    public function chooseValues(SessionInterface $session): Response
+    public function chooseValues(SessionInterface $session, Request $request): Response
     {
         if (!$this->gameStateService->isColorOrderConfirmed($session)) {
             return $this->redirectToRoute('app_choose_colors');
         }
         
-        $valuesOrder = $this->cardService->generateRandomValuesOrder();
-        $this->gameStateService->setValuesOrder($session, $valuesOrder);
+        $new = $request->query->get('new', false);
+        $move = $request->query->get('move');
+        $index = $request->query->get('index');
+        
+        // Si on demande un nouvel ordre ou si l'ordre n'existe pas, on génère un nouvel ordre
+        if ($new || $this->gameStateService->getValuesOrder($session) === null) {
+            $valuesOrder = $this->cardService->generateRandomValuesOrder();
+            $this->gameStateService->setValuesOrder($session, $valuesOrder);
+        } else {
+            // Récupérer l'ordre existant
+            $valuesOrder = $this->gameStateService->getValuesOrder($session);
+            
+            // Gérer le déplacement si demandé
+            if ($move !== null && $index !== null) {
+                $index = (int) $index;
+                $reorderedValues = $this->gameService->reorderValues($valuesOrder, $index, $move);
+                
+                if ($reorderedValues !== null) {
+                    $this->gameStateService->setValuesOrder($session, $reorderedValues);
+                    $valuesOrder = $reorderedValues;
+                }
+            }
+        }
         
         return $this->render('game/choose_values.html.twig', [
             'valuesOrder' => $valuesOrder,
