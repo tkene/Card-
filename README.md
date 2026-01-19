@@ -1,19 +1,20 @@
-# 🃏 Jeu de Cartes - Application Symfony
+# 🃏 Jeu de Cartes - Application Symfony + Vue.js
 
-Application web interactive permettant de générer et trier des mains de cartes selon des règles personnalisables. Le projet utilise Symfony 7.4 et Tailwind CSS pour offrir une expérience utilisateur moderne et intuitive.
+Application web interactive permettant de générer et trier des mains de cartes selon des règles personnalisables. Le projet utilise **Symfony 7.4** comme API backend et **Vue.js 3** avec **Quasar** et **Tailwind CSS** pour le frontend, offrant une expérience utilisateur moderne et intuitive.
 
 ## 📋 Table des matières
 
 - [Description](#-description)
 - [Fonctionnalités](#-fonctionnalités)
+- [Architecture](#-architecture)
 - [Prérequis](#-prérequis)
 - [Installation](#-installation)
 - [Utilisation](#-utilisation)
 - [Structure du projet](#-structure-du-projet)
 - [Technologies utilisées](#-technologies-utilisées)
-- [Routes disponibles](#-routes-disponibles)
+- [API Endpoints](#-api-endpoints)
 - [Tests](#-tests)
-- [Architecture](#-architecture)
+- [Développement](#-développement)
 
 ## 🎯 Description
 
@@ -33,13 +34,51 @@ Le tri s'effectue d'abord par couleur (selon l'ordre choisi), puis par valeur (s
 - ✅ Réorganisation interactive des couleurs et valeurs (déplacement haut/bas)
 - ✅ Génération de mains aléatoires (1 à 52 cartes)
 - ✅ Tri automatique des cartes selon les règles définies
-- ✅ Interface utilisateur moderne et responsive avec Tailwind CSS
+- ✅ Interface utilisateur moderne avec Vue.js, Quasar et Tailwind CSS
 - ✅ Gestion d'état via sessions Symfony
+- ✅ Architecture API REST séparée
 
 ### Fonctionnalités bonus
-- 🔄 Réorganisation dynamique de l'ordre des couleurs/valeurs
-- 🎨 Interface utilisateur soignée avec animations
-- 📱 Design responsive
+- 🔄 Réorganisation dynamique avec animations fluides
+- 🎨 Design moderne avec glassmorphism et effets visuels
+- 📱 Design responsive et adaptatif
+- ⚡ Transitions et animations optimisées
+- 🎯 UX moderne avec feedback visuel
+
+## 🏗 Architecture
+
+### Architecture séparée (Backend/Frontend)
+
+Le projet suit une architecture moderne avec séparation des responsabilités :
+
+- **Backend (Symfony)** : API REST uniquement, retourne du JSON
+- **Frontend (Vue.js)** : Single Page Application (SPA) avec Vue Router
+- **Communication** : Axios pour les appels API avec gestion des sessions
+
+### Pattern MVC côté Backend
+
+- **Model** : Services (`CardService`, `GameService`, `GameStateService`)
+- **View** : JSON responses (API REST)
+- **Controller** : `GameApiController` (endpoints API)
+
+### Services
+
+#### CardService
+Gère la logique liée aux cartes :
+- Génération d'ordres aléatoires (couleurs, valeurs)
+- Tri des mains selon les règles personnalisées
+
+#### GameService
+Contient la logique métier du jeu :
+- Validation du nombre de cartes
+- Génération de mains aléatoires
+- Réorganisation d'éléments dans un tableau
+
+#### GameStateService
+Gère l'état de la partie via les sessions :
+- Stockage des ordres de couleurs/valeurs
+- Gestion des confirmations d'étapes
+- Persistance de la main générée
 
 ## 🔧 Prérequis
 
@@ -47,8 +86,8 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 - **PHP** >= 8.2
 - **Composer** (gestionnaire de dépendances PHP)
-- **Node.js** et **npm** (pour Tailwind CSS)
-- **Git** (optionnel, pour le versioning)
+- **Node.js** >= 18.x et **npm**
+- **Symfony CLI** (optionnel mais recommandé)
 
 ## 📦 Installation
 
@@ -59,40 +98,68 @@ git clone <url-du-repo>
 cd card-game
 ```
 
-### 2. Installer les dépendances PHP
+### 2. Installer les dépendances Backend (Symfony)
 
 ```bash
 composer install
+composer require nelmio/cors-bundle
 ```
 
-### 3. Installer les dépendances Node.js
+### 3. Installer les dépendances Frontend (Vue.js)
 
 ```bash
+cd frontend
 npm install
+cd ..
 ```
 
-### 4. Compiler les assets CSS
+### 4. Configuration
 
+#### Backend
+Créez un fichier `.env.local` si nécessaire :
 ```bash
-npm run build-css
+APP_ENV=dev
+APP_SECRET=your-secret-key-here
+```
+
+#### Frontend
+Créez un fichier `.env` dans le dossier `frontend/` :
+```bash
+cd frontend
+cp .env.example .env
+```
+
+Le fichier `.env` contient :
+```
+VITE_API_URL=http://localhost:8000/api
 ```
 
 ## 🚀 Utilisation
 
-### Démarrer le serveur de développement
+### Démarrer les serveurs
+
+Vous devez démarrer deux serveurs :
+
+#### Terminal 1 - Backend Symfony (API)
 
 ```bash
-# Option 1 : Utiliser le script npm
-npm start
-
-# Option 2 : Utiliser le serveur PHP intégré
+# Option 1 : Serveur PHP intégré
 php -S localhost:8000 -t public
 
-# Option 3 : Utiliser Symfony CLI (si installé)
+# Option 2 : Symfony CLI
 symfony server:start
 ```
 
-L'application sera accessible à l'adresse : **http://localhost:8000**
+Le backend sera accessible sur **http://localhost:8000**
+
+#### Terminal 2 - Frontend Vue.js
+
+```bash
+cd frontend
+npm run dev
+```
+
+Le frontend sera accessible sur **http://localhost:3000**
 
 ### Workflow de l'application
 
@@ -100,17 +167,17 @@ L'application sera accessible à l'adresse : **http://localhost:8000**
 2. **Étape 1 - Choix des couleurs** : 
    - Un ordre aléatoire des couleurs est généré
    - Vous pouvez réorganiser l'ordre en cliquant sur les flèches haut/bas
-   - Cliquez sur "Confirmer" une fois satisfait
+   - Cliquez sur "Confirmer cet ordre" une fois satisfait
 3. **Étape 2 - Choix des valeurs** :
    - Un ordre aléatoire des valeurs est généré
    - Réorganisez l'ordre si nécessaire
-   - Cliquez sur "Confirmer"
+   - Cliquez sur "Confirmer cet ordre"
 4. **Étape 3 - Nombre de cartes** :
    - Entrez le nombre de cartes souhaité (entre 1 et 52)
-   - Cliquez sur "Générer la main"
+   - Cliquez sur "Confirmer"
 5. **Étape 4 - Visualisation** :
    - Visualisez votre main non triée
-   - Cliquez sur "Trier les cartes" pour voir le résultat
+   - Cliquez sur "Continuer vers la main triée"
 6. **Étape 5 - Résultat** :
    - Visualisez les cartes triées selon vos règles
    - Option de retour ou de réinitialisation
@@ -119,39 +186,51 @@ L'application sera accessible à l'adresse : **http://localhost:8000**
 
 ```
 card-game/
-├── assets/
-│   └── styles/
-│       └── app.css              # Styles Tailwind CSS
-├── config/                      # Configuration Symfony
+├── frontend/                      # Application Vue.js
+│   ├── src/
+│   │   ├── views/                 # Pages Vue.js
+│   │   │   ├── Home.vue
+│   │   │   ├── ChooseColors.vue
+│   │   │   ├── ChooseValues.vue
+│   │   │   ├── ChooseGameMode.vue
+│   │   │   ├── ShowCards.vue
+│   │   │   └── ShowSortedCards.vue
+│   │   ├── services/              # Services API
+│   │   │   ├── api.js             # Configuration Axios
+│   │   │   └── gameService.js     # Service de jeu
+│   │   ├── router/                # Vue Router
+│   │   │   └── index.js
+│   │   ├── styles/                # Styles Tailwind CSS
+│   │   │   └── main.css
+│   │   ├── App.vue                # Composant racine
+│   │   └── main.js                # Point d'entrée
+│   ├── index.html
+│   ├── vite.config.js             # Configuration Vite
+│   ├── tailwind.config.js         # Configuration Tailwind
+│   ├── package.json
+│   └── .env
+├── config/                        # Configuration Symfony
 │   ├── packages/
+│   │   ├── nelmio_cors.yaml       # Configuration CORS
+│   │   └── framework.yaml
 │   └── routes.yaml
-├── public/                      # Point d'entrée web
-│   ├── build/
-│   │   └── app.css              # CSS compilé
+├── public/                        # Point d'entrée web
 │   └── index.php
 ├── src/
 │   ├── Controller/
-│   │   └── GameController.php   # Contrôleur principal
+│   │   ├── Api/
+│   │   │   └── GameApiController.php  # Contrôleur API REST
+│   │   └── GameController.php         # Ancien contrôleur (non utilisé)
 │   ├── Service/
-│   │   ├── CardService.php      # Service de gestion des cartes
-│   │   ├── GameService.php      # Service de logique métier
-│   │   └── GameStateService.php # Service de gestion d'état (session)
+│   │   ├── CardService.php        # Service de gestion des cartes
+│   │   ├── GameService.php        # Service de logique métier
+│   │   └── GameStateService.php   # Service de gestion d'état (session)
 │   └── Kernel.php
-├── templates/
-│   ├── base.html.twig           # Template de base
-│   └── game/
-│       ├── index.html.twig
-│       ├── choose_colors.html.twig
-│       ├── choose_values.html.twig
-│       ├── choose_game_mode.html.twig
-│       ├── show_cards.html.twig
-│       └── show_sorted_cards.html.twig
 ├── tests/
 │   └── Service/
-│       └── CardServiceTest.php  # Tests unitaires
-├── composer.json                # Dépendances PHP
-├── package.json                 # Dépendances Node.js
-└── tailwind.config.js           # Configuration Tailwind
+│       └── CardServiceTest.php    # Tests unitaires
+├── composer.json                  # Dépendances PHP
+└── README.md
 ```
 
 ## 🛠 Technologies utilisées
@@ -159,38 +238,52 @@ card-game/
 ### Backend
 - **Symfony 7.4** : Framework PHP moderne
 - **PHP 8.2+** : Langage de programmation
-- **Twig** : Moteur de templates
+- **Nelmio CORS Bundle** : Gestion CORS pour l'API
 
 ### Frontend
+- **Vue.js 3** : Framework JavaScript réactif
+- **Vue Router 4** : Routage côté client
+- **Quasar Framework** : Composants UI modernes
 - **Tailwind CSS 3.4** : Framework CSS utility-first
-- **HTML5** : Structure
-- **JavaScript** : Interactivité (vanilla)
+- **Axios** : Client HTTP pour les appels API
+- **Vite** : Build tool moderne et rapide
 
 ### Outils de développement
 - **Composer** : Gestionnaire de dépendances PHP
 - **npm** : Gestionnaire de paquets Node.js
 - **Git** : Contrôle de version
 
-## 🗺 Routes disponibles
+## 📡 API Endpoints
 
-| Route | Méthode | Description |
-|-------|---------|-------------|
-| `/` | GET | Page d'accueil |
-| `/choose-colors` | GET | Étape 1 : Choix de l'ordre des couleurs |
-| `/confirm-colors` | GET | Confirmation de l'ordre des couleurs |
-| `/choose-values` | GET | Étape 2 : Choix de l'ordre des valeurs |
-| `/confirm-values` | GET | Confirmation de l'ordre des valeurs |
-| `/choose-game-mode` | GET | Étape 3 : Choix du nombre de cartes |
-| `/confirm-cards-number` | POST | Confirmation du nombre de cartes |
-| `/show-cards-with-values` | GET | Étape 4 : Affichage de la main non triée |
-| `/show-sorted-cards` | GET | Étape 5 : Affichage de la main triée |
-| `/reset-game` | GET | Réinitialisation de la partie |
+Tous les endpoints sont préfixés par `/api/game` :
 
-### Paramètres de requête
+| Endpoint | Méthode | Description |
+|----------|---------|-------------|
+| `/api/game/initialize` | POST | Initialiser le jeu |
+| `/api/game/color-order` | GET | Obtenir l'ordre des couleurs |
+| `/api/game/color-order/new` | POST | Générer un nouvel ordre de couleurs |
+| `/api/game/color-order/reorder` | POST | Réorganiser les couleurs |
+| `/api/game/color-order/confirm` | POST | Confirmer l'ordre des couleurs |
+| `/api/game/values-order` | GET | Obtenir l'ordre des valeurs |
+| `/api/game/values-order/new` | POST | Générer un nouvel ordre de valeurs |
+| `/api/game/values-order/reorder` | POST | Réorganiser les valeurs |
+| `/api/game/values-order/confirm` | POST | Confirmer l'ordre des valeurs |
+| `/api/game/cards-number` | POST | Confirmer le nombre de cartes |
+| `/api/game/unsorted-hand` | GET | Obtenir la main non triée |
+| `/api/game/sorted-hand` | GET | Obtenir la main triée |
+| `/api/game/reset` | POST | Réinitialiser le jeu |
 
-- `?new=true` : Génère un nouvel ordre aléatoire
-- `?move=up&index=0` : Déplace un élément vers le haut
-- `?move=down&index=0` : Déplace un élément vers le bas
+### Format des réponses
+
+Toutes les réponses sont au format JSON :
+
+```json
+{
+  "colorOrder": [...],
+  "success": true,
+  "error": "Message d'erreur si applicable"
+}
+```
 
 ## 🧪 Tests
 
@@ -214,58 +307,22 @@ php bin/phpunit
 composer require --dev phpunit/phpunit
 ```
 
-## 🏗 Architecture
+## 💻 Développement
 
-### Pattern MVC
+### Build de production
 
-Le projet suit l'architecture Model-View-Controller :
-
-- **Model** : Services (`CardService`, `GameService`, `GameStateService`)
-- **View** : Templates Twig dans `templates/`
-- **Controller** : `GameController`
-
-### Services
-
-#### CardService
-Gère la logique liée aux cartes :
-- Génération d'ordres aléatoires (couleurs, valeurs)
-- Tri des mains selon les règles personnalisées
-
-#### GameService
-Contient la logique métier du jeu :
-- Validation du nombre de cartes
-- Génération de mains aléatoires
-- Réorganisation d'éléments dans un tableau
-
-#### GameStateService
-Gère l'état de la partie via les sessions :
-- Stockage des ordres de couleurs/valeurs
-- Gestion des confirmations d'étapes
-- Persistance de la main générée
-
-### Injection de dépendances
-
-Tous les services sont injectés via le conteneur Symfony (autowiring) :
-
-```php
-public function __construct(
-    GameService $gameService,
-    CardService $cardService,
-    GameStateService $gameStateService
-) {
-    // ...
-}
-```
-
-## 📝 Notes de développement
-
-### Compilation des assets
-
-Lors de la modification des fichiers CSS, recompiler les assets :
+#### Frontend
 
 ```bash
-npm run build-css
+cd frontend
+npm run build
 ```
+
+Les fichiers compilés seront dans `public/frontend/`
+
+#### Backend
+
+Le backend Symfony reste inchangé. Assurez-vous que les routes API sont accessibles.
 
 ### Cache Symfony
 
@@ -275,11 +332,49 @@ En cas de problème, vider le cache :
 php bin/console cache:clear
 ```
 
+### Configuration CORS
+
+Le fichier `config/packages/nelmio_cors.yaml` est configuré pour autoriser les requêtes depuis `http://localhost:3000`.
+
+Si vous changez le port du frontend, modifiez la configuration CORS.
+
+### Variables d'environnement
+
+#### Backend
+- `APP_ENV` : Environnement (dev, prod)
+- `APP_SECRET` : Clé secrète Symfony
+
+#### Frontend
+- `VITE_API_URL` : URL de l'API Symfony (défaut: http://localhost:8000/api)
+
 ## 🔒 Sécurité
 
 - Validation des entrées utilisateur (nombre de cartes)
 - Utilisation des sessions Symfony sécurisées
 - Protection contre les injections (type casting explicite)
+- Configuration CORS pour limiter les origines autorisées
+- Gestion des erreurs API avec messages appropriés
+
+## 🐛 Dépannage
+
+### Erreurs CORS
+
+Si vous voyez des erreurs CORS :
+1. Vérifiez que `nelmio/cors-bundle` est installé : `composer show nelmio/cors-bundle`
+2. Vérifiez la configuration dans `config/packages/nelmio_cors.yaml`
+3. Videz le cache Symfony : `php bin/console cache:clear`
+4. Redémarrez le serveur Symfony
+
+### Sessions non persistantes
+
+Si les sessions ne persistent pas :
+1. Vérifiez que `withCredentials: true` est configuré dans `frontend/src/services/api.js`
+2. Vérifiez que les cookies sont envoyés dans les requêtes (onglet Network du navigateur)
+
+### Port déjà utilisé
+
+- **Frontend** : Modifiez le port dans `frontend/vite.config.js` (ligne `port: 3000`)
+- **Backend** : Utilisez un autre port avec `php -S localhost:8080 -t public` et mettez à jour `VITE_API_URL` dans `.env`
 
 ## 📄 Licence
 
@@ -296,4 +391,3 @@ Ce projet est un exercice individuel. Pour toute question ou suggestion, n'hési
 ---
 
 **Bon jeu ! 🃏**
-

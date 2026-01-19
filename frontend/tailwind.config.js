@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    "./templates/**/*.html.twig",
-    "./src/**/*.php",
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        // Couleurs personnalisées du projet
         primary: {
           from: '#667eea',
           to: '#764ba2',
