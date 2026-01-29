@@ -44,16 +44,19 @@ onMounted(() => {
 <template>
   <div class="cards-page">
     <ModernCard
-      title="Étape 4 : Main non triée"
+      title="Main non triée"
       subtitle="Les cartes tirées arrivent dans le désordre, comme quand on pioche."
       emoji="🙃"
       fullscreen
       card-class="custom-scrollbar"
     >
       <q-inner-loading :showing="loading" />
-
-      <CardsGrid v-if="!loading" :cards="drawnCards" />
-
+      <div 
+        v-if="!loading" 
+        class="cards-grid-container custom-scrollbar"
+      >
+      <CardsGrid :cards="drawnCards" />
+      </div>
       <template #actions>
         <ActionButton
           label="Continuer vers la main triée"

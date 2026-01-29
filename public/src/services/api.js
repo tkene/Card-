@@ -14,7 +14,6 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response) {
-      // Erreur de réponse du serveur
       console.error('Erreur API:', error.response.data)
     } else if (error.request) {
       // Requête envoyée mais pas de réponse
@@ -28,4 +27,3 @@ api.interceptors.response.use(
 )
 
 export default api
-

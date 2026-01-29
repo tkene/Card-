@@ -98,17 +98,23 @@ git clone <url-du-repo>
 cd card-game
 ```
 
+> **Note** : La structure du projet est organisée avec deux dossiers principaux :
+> - `public/` : Application frontend Vue.js
+> - `server/` : Application backend Symfony
+
 ### 2. Installer les dépendances Backend (Symfony)
 
 ```bash
+cd server
 composer install
-composer require nelmio/cors-bundle
 ```
+
+> **Note** : Le bundle `nelmio/cors-bundle` est déjà inclus dans les dépendances du projet.
 
 ### 3. Installer les dépendances Frontend (Vue.js)
 
 ```bash
-cd frontend
+cd public
 npm install
 cd ..
 ```
@@ -116,23 +122,31 @@ cd ..
 ### 4. Configuration
 
 #### Backend
-Créez un fichier `.env.local` si nécessaire :
+Créez un fichier `.env.local` dans le dossier `server/` si nécessaire :
+```bash
+cd server
+```
+
+Le fichier `.env.local` (optionnel) peut contenir :
 ```bash
 APP_ENV=dev
 APP_SECRET=your-secret-key-here
 ```
 
+> **Note** : Symfony génère automatiquement un `APP_SECRET` si absent. Pour la plupart des cas, la configuration par défaut suffit.
+
 #### Frontend
-Créez un fichier `.env` dans le dossier `frontend/` :
+Créez un fichier `.env` dans le dossier `public/` si nécessaire :
 ```bash
-cd frontend
-cp .env.example .env
+cd public
 ```
 
-Le fichier `.env` contient :
+Le fichier `.env` (optionnel, la valeur par défaut est utilisée si absent) contient :
 ```
 VITE_API_URL=http://localhost:8000/api
 ```
+
+> **Note** : Si le fichier `.env` n'existe pas, l'application utilisera la valeur par défaut définie dans `src/services/api.js` (`http://localhost:8000/api`).
 
 ## 🚀 Utilisation
 
@@ -143,6 +157,8 @@ Vous devez démarrer deux serveurs :
 #### Terminal 1 - Backend Symfony (API)
 
 ```bash
+cd server
+
 # Option 1 : Serveur PHP intégré
 php -S localhost:8000 -t public
 
@@ -152,10 +168,12 @@ symfony server:start
 
 Le backend sera accessible sur **http://localhost:8000**
 
+> **Note** : Assurez-vous d'être dans le dossier `server/` avant d'exécuter ces commandes.
+
 #### Terminal 2 - Frontend Vue.js
 
 ```bash
-cd frontend
+cd public
 npm run dev
 ```
 
@@ -193,8 +211,7 @@ card-game/
 │   │   │   ├── ActionButton.vue   # Bouton d'action réutilisable
 │   │   │   ├── ReorderableItem.vue # Élément réordonnable
 │   │   │   ├── CardItem.vue       # Carte individuelle du jeu
-│   │   │   ├── CardsGrid.vue      # Grille de cartes
-│   │   │   └── README.md          # Documentation des composants
+│   │   │   └── CardsGrid.vue      # Grille de cartes
 │   │   ├── views/                 # Pages Vue.js
 │   │   │   ├── Home.vue
 │   │   │   ├── ChooseColors.vue
@@ -205,18 +222,21 @@ card-game/
 │   │   ├── services/              # Services API
 │   │   │   ├── api.js             # Configuration Axios
 │   │   │   └── gameService.js     # Service de jeu
+│   │   ├── composables/           # Composables Vue (réutilisables)
 │   │   ├── router/                # Vue Router
 │   │   │   └── index.js
 │   │   ├── styles/                # Styles CSS
 │   │   │   ├── main.css           # Styles Tailwind CSS
 │   │   │   └── common.css         # Styles communs partagés
 │   │   ├── App.vue                # Composant racine
-│   │   └── main.js                # Point d'entrée
+│   │   ├── main.js                # Point d'entrée
+│   │   └── quasar-variables.sass  # Variables SASS Quasar
 │   ├── index.html
 │   ├── vite.config.js             # Configuration Vite
 │   ├── tailwind.config.js         # Configuration Tailwind
+│   ├── postcss.config.js          # Configuration PostCSS
 │   ├── package.json
-│   └── .env
+│   └── .env                       # Variables d'environnement (optionnel)
 ├── server/                        # Application Symfony (Backend)
 │   ├── config/                    # Configuration Symfony
 │   │   ├── packages/
@@ -265,8 +285,9 @@ card-game/
   - `CardItem` : Affichage de cartes individuelles
   - `CardsGrid` : Grille de cartes avec transitions
 - **Styles partagés** : `common.css` pour les styles communs
+- **Composables** : Dossier `composables/` disponible pour les composables Vue réutilisables (actuellement vide, prêt pour factorisation future)
 
-> 📖 **Documentation complète des composants** : Voir [`public/src/components/README.md`](public/src/components/README.md)
+> 📖 **Note** : Les composants sont documentés dans le code source avec des commentaires explicites.
 
 ### Outils de développement
 - **Composer** : Gestionnaire de dépendances PHP
@@ -310,6 +331,8 @@ Toutes les réponses sont au format JSON :
 ### Exécuter les tests
 
 ```bash
+cd server
+
 # Si PHPUnit est installé
 vendor/bin/phpunit
 
@@ -324,6 +347,7 @@ php bin/phpunit
 ### Installation de PHPUnit (si nécessaire)
 
 ```bash
+cd server
 composer require --dev phpunit/phpunit
 ```
 
@@ -334,11 +358,11 @@ composer require --dev phpunit/phpunit
 #### Frontend
 
 ```bash
-cd frontend
+cd public
 npm run build
 ```
 
-Les fichiers compilés seront dans `public/frontend/`
+Les fichiers compilés seront dans `public/frontend/` (selon la configuration dans `vite.config.js`)
 
 #### Backend
 
@@ -349,14 +373,15 @@ Le backend Symfony reste inchangé. Assurez-vous que les routes API sont accessi
 En cas de problème, vider le cache :
 
 ```bash
+cd server
 php bin/console cache:clear
 ```
 
 ### Configuration CORS
 
-Le fichier `config/packages/nelmio_cors.yaml` est configuré pour autoriser les requêtes depuis `http://localhost:3000`.
+Le fichier `server/config/packages/nelmio_cors.yaml` est configuré pour autoriser les requêtes depuis `http://localhost:3000`.
 
-Si vous changez le port du frontend, modifiez la configuration CORS.
+Si vous changez le port du frontend, modifiez la configuration CORS dans ce fichier.
 
 ### Variables d'environnement
 
@@ -366,6 +391,7 @@ Si vous changez le port du frontend, modifiez la configuration CORS.
 
 #### Frontend
 - `VITE_API_URL` : URL de l'API Symfony (défaut: http://localhost:8000/api)
+  - Défini dans `public/src/services/api.js` ou dans `public/.env`
 
 ## 🔒 Sécurité
 
@@ -380,21 +406,22 @@ Si vous changez le port du frontend, modifiez la configuration CORS.
 ### Erreurs CORS
 
 Si vous voyez des erreurs CORS :
-1. Vérifiez que `nelmio/cors-bundle` est installé : `composer show nelmio/cors-bundle`
-2. Vérifiez la configuration dans `config/packages/nelmio_cors.yaml`
-3. Videz le cache Symfony : `php bin/console cache:clear`
+1. Vérifiez que `nelmio/cors-bundle` est installé : `cd server && composer show nelmio/cors-bundle`
+2. Vérifiez la configuration dans `server/config/packages/nelmio_cors.yaml`
+3. Videz le cache Symfony : `cd server && php bin/console cache:clear`
 4. Redémarrez le serveur Symfony
 
 ### Sessions non persistantes
 
 Si les sessions ne persistent pas :
-1. Vérifiez que `withCredentials: true` est configuré dans `frontend/src/services/api.js`
+1. Vérifiez que `withCredentials: true` est configuré dans `public/src/services/api.js`
 2. Vérifiez que les cookies sont envoyés dans les requêtes (onglet Network du navigateur)
+3. Assurez-vous que le backend et le frontend sont sur les mêmes domaines ou que CORS est correctement configuré
 
 ### Port déjà utilisé
 
-- **Frontend** : Modifiez le port dans `frontend/vite.config.js` (ligne `port: 3000`)
-- **Backend** : Utilisez un autre port avec `php -S localhost:8080 -t public` et mettez à jour `VITE_API_URL` dans `.env`
+- **Frontend** : Modifiez le port dans `public/vite.config.js` (ligne `port: 3000`)
+- **Backend** : Utilisez un autre port avec `php -S localhost:8080 -t public` (dans le dossier `server/`) et mettez à jour `VITE_API_URL` dans `.env` du dossier `public/`
 
 ## 📄 Licence
 

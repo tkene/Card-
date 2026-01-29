@@ -41,9 +41,10 @@ const generateNewOrder = async () => {
     isGenerating.value = true
     isMoving.value = true
     
-    // Animation de fade out
+    // Animation de fade out (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 300))
     
+    // Le mélange est fait côté backend, on appelle juste l'API
     const data = await gameService.generateNewColorOrder()
     colorOrder.value = data.colorOrder
     
@@ -67,13 +68,12 @@ const moveUp = async (index) => {
   try {
     isMoving.value = true
     
-    // Animation de transition
+    // Animation de transition (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 200))
     
+    // La réorganisation est faite côté backend
     const data = await gameService.reorderColors(index, 'up')
-    if (data.colorOrder) {
-      colorOrder.value = data.colorOrder
-    }
+    colorOrder.value = data.colorOrder
     
     // Retour à l'état normal
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -89,13 +89,12 @@ const moveDown = async (index) => {
   try {
     isMoving.value = true
     
-    // Animation de transition
+    // Animation de transition (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 200))
     
+    // La réorganisation est faite côté backend
     const data = await gameService.reorderColors(index, 'down')
-    if (data.colorOrder) {
-      colorOrder.value = data.colorOrder
-    }
+    colorOrder.value = data.colorOrder
     
     // Retour à l'état normal
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -190,12 +189,12 @@ onMounted(() => {
 .colors-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 /* Icône de couleur */
 .color-icon {
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   line-height: 1;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
@@ -203,7 +202,7 @@ onMounted(() => {
 /* Nom de couleur */
 .color-name {
   flex: 1;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1a1a2e;
   letter-spacing: -0.01em;

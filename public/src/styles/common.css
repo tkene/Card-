@@ -50,3 +50,13 @@
   padding: 1rem;
 }
 
+/* Container pour la grille de cartes */
+.cards-grid-container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 1.5rem 0;
+  padding-right: 0.5rem;
+  max-height: calc(95vh - 350px);
+}
+

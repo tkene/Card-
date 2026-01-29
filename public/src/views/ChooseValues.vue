@@ -40,11 +40,14 @@ const generateNewOrder = async () => {
     isGenerating.value = true
     isMoving.value = true
     
+    // Animation de fade out (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 300))
     
+    // Le mélange est fait côté backend, on appelle juste l'API
     const data = await gameService.generateNewValuesOrder()
     valuesOrder.value = data.valuesOrder
     
+    // Animation de fade in
     await new Promise(resolve => setTimeout(resolve, 50))
     isMoving.value = false
   } catch (error) {
@@ -54,8 +57,6 @@ const generateNewOrder = async () => {
       type: 'negative',
       message: 'Erreur lors de la génération d\'un nouvel ordre'
     })
-  } finally {
-    isGenerating.value = false
   }
 }
 
@@ -64,13 +65,14 @@ const moveUp = async (index) => {
   try {
     isMoving.value = true
     
+    // Animation de transition (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 200))
     
+    // La réorganisation est faite côté backend
     const data = await gameService.reorderValues(index, 'up')
-    if (data.valuesOrder) {
-      valuesOrder.value = data.valuesOrder
-    }
+    valuesOrder.value = data.valuesOrder
     
+    // Retour à l'état normal
     await new Promise(resolve => setTimeout(resolve, 100))
     isMoving.value = false
   } catch (error) {
@@ -84,13 +86,14 @@ const moveDown = async (index) => {
   try {
     isMoving.value = true
     
+    // Animation de transition (logique UI dans le composant)
     await new Promise(resolve => setTimeout(resolve, 200))
     
+    // La réorganisation est faite côté backend
     const data = await gameService.reorderValues(index, 'down')
-    if (data.valuesOrder) {
-      valuesOrder.value = data.valuesOrder
-    }
+    valuesOrder.value = data.valuesOrder
     
+    // Retour à l'état normal
     await new Promise(resolve => setTimeout(resolve, 100))
     isMoving.value = false
   } catch (error) {

@@ -30,13 +30,13 @@ defineProps({
 <style scoped>
 .card-item {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.4rem;
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.06),
     0 1px 3px rgba(0, 0, 0, 0.04);
@@ -45,8 +45,9 @@ defineProps({
   animation: cardAppear 0.4s ease-out backwards;
   animation-delay: var(--delay);
   width: calc(20% - 0.8rem);
-  min-width: 120px;
-  aspect-ratio: 2/3;
+  min-width: 80px;
+  aspect-ratio: 3/2;
+  max-height: 100px;
 }
 
 .card-item.sorted {
@@ -74,20 +75,20 @@ defineProps({
 }
 
 .card-symbol {
-  font-size: 3rem;
+  font-size: 1.75rem;
   line-height: 1;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .card-value {
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #1a1a2e;
   text-align: center;
 }
 
 .card-color {
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   color: #6b7280;
   text-align: center;
 }
@@ -101,13 +102,14 @@ defineProps({
 @media (max-width: 768px) {
   .card-item {
     width: calc(33.333% - 0.67rem);
-    min-width: 100px;
+    min-width: 70px;
   }
 }
 
 @media (max-width: 640px) {
   .card-item {
     width: calc(50% - 0.5rem);
+    min-width: 70px;
   }
 }
 </style>

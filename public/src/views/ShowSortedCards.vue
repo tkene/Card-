@@ -56,7 +56,7 @@ onMounted(() => {
 <template>
   <div class="cards-page">
     <ModernCard
-      title="Étape 5 : Main triée"
+      title="Main triée"
       subtitle="Les cartes sont maintenant triées selon les règles :"
       emoji="📏"
       fullscreen
@@ -64,7 +64,12 @@ onMounted(() => {
     >
       <q-inner-loading :showing="loading" />
 
-      <CardsGrid v-if="!loading" :cards="sortedCards" :sorted="true" />
+      <div 
+        v-if="!loading" 
+        class="cards-grid-container custom-scrollbar"
+      >
+      <CardsGrid :cards="sortedCards" :sorted="true" />
+      </div>
 
       <template #actions>
         <ActionButton

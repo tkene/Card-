@@ -61,11 +61,11 @@ defineEmits(['move-up', 'move-down'])
 <style scoped>
 .reorderable-item {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   box-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.06),
     0 1px 3px rgba(0, 0, 0, 0.04);
@@ -100,13 +100,13 @@ defineEmits(['move-up', 'move-down'])
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .control-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   border: none;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -116,6 +116,11 @@ defineEmits(['move-up', 'move-down'])
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.control-btn svg {
+  width: 12px;
+  height: 12px;
 }
 
 .control-btn:hover:not(.disabled) {
@@ -134,16 +139,16 @@ defineEmits(['move-up', 'move-down'])
 }
 
 .position-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
 }
 
@@ -153,8 +158,8 @@ defineEmits(['move-up', 'move-down'])
 
 @media (max-width: 640px) {
   .reorderable-item {
-    padding: 1rem;
-    gap: 1rem;
+    padding: 0.65rem 0.85rem;
+    gap: 0.85rem;
   }
 }
 </style>
