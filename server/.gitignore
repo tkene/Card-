@@ -1,0 +1,56 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> IDE ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+###< IDE ###
+
+###> OS ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+###< OS ###
+
+###> Logs ###
+*.log
+/var/log/*
+###< Logs ###
+
+###> Cache ###
+/var/cache/*
+!/var/cache/.gitkeep
+###< Cache ###
+
+###> Temporary files ###
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+###< Temporary files ###
+

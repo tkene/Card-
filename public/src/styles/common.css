@@ -1,0 +1,52 @@
+/* Styles communs pour les listes avec transitions */
+.list-enter-active {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+.list-move {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scrollbar personnalisée */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #653a8f 100%);
+}
+
+/* Page wrapper pour les pages de cartes */
+.cards-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+

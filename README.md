@@ -186,8 +186,15 @@ Le frontend sera accessible sur **http://localhost:3000**
 
 ```
 card-game/
-├── frontend/                      # Application Vue.js
+├── public/                        # Application Vue.js (Frontend)
 │   ├── src/
+│   │   ├── components/            # Composants réutilisables
+│   │   │   ├── ModernCard.vue     # Carte principale réutilisable
+│   │   │   ├── ActionButton.vue   # Bouton d'action réutilisable
+│   │   │   ├── ReorderableItem.vue # Élément réordonnable
+│   │   │   ├── CardItem.vue       # Carte individuelle du jeu
+│   │   │   ├── CardsGrid.vue      # Grille de cartes
+│   │   │   └── README.md          # Documentation des composants
 │   │   ├── views/                 # Pages Vue.js
 │   │   │   ├── Home.vue
 │   │   │   ├── ChooseColors.vue
@@ -200,8 +207,9 @@ card-game/
 │   │   │   └── gameService.js     # Service de jeu
 │   │   ├── router/                # Vue Router
 │   │   │   └── index.js
-│   │   ├── styles/                # Styles Tailwind CSS
-│   │   │   └── main.css
+│   │   ├── styles/                # Styles CSS
+│   │   │   ├── main.css           # Styles Tailwind CSS
+│   │   │   └── common.css         # Styles communs partagés
 │   │   ├── App.vue                # Composant racine
 │   │   └── main.js                # Point d'entrée
 │   ├── index.html
@@ -209,27 +217,28 @@ card-game/
 │   ├── tailwind.config.js         # Configuration Tailwind
 │   ├── package.json
 │   └── .env
-├── config/                        # Configuration Symfony
-│   ├── packages/
-│   │   ├── nelmio_cors.yaml       # Configuration CORS
-│   │   └── framework.yaml
-│   └── routes.yaml
-├── public/                        # Point d'entrée web
-│   └── index.php
-├── src/
-│   ├── Controller/
-│   │   ├── Api/
-│   │   │   └── GameApiController.php  # Contrôleur API REST
-│   │   └── GameController.php         # Ancien contrôleur (non utilisé)
-│   ├── Service/
-│   │   ├── CardService.php        # Service de gestion des cartes
-│   │   ├── GameService.php        # Service de logique métier
-│   │   └── GameStateService.php   # Service de gestion d'état (session)
-│   └── Kernel.php
-├── tests/
-│   └── Service/
-│       └── CardServiceTest.php    # Tests unitaires
-├── composer.json                  # Dépendances PHP
+├── server/                        # Application Symfony (Backend)
+│   ├── config/                    # Configuration Symfony
+│   │   ├── packages/
+│   │   │   ├── nelmio_cors.yaml   # Configuration CORS
+│   │   │   └── framework.yaml
+│   │   └── routes.yaml
+│   ├── public/                    # Point d'entrée web Symfony
+│   │   └── index.php
+│   ├── src/
+│   │   ├── Controller/
+│   │   │   └── Api/
+│   │   │       └── GameApiController.php  # Contrôleur API REST
+│   │   ├── Service/
+│   │   │   ├── CardService.php    # Service de gestion des cartes
+│   │   │   ├── GameService.php    # Service de logique métier
+│   │   │   └── GameStateService.php   # Service de gestion d'état (session)
+│   │   └── Kernel.php
+│   ├── tests/
+│   │   └── Service/
+│   │       └── CardServiceTest.php    # Tests unitaires
+│   ├── composer.json              # Dépendances PHP
+│   └── vendor/                    # Dépendances PHP installées
 └── README.md
 ```
 
@@ -246,7 +255,18 @@ card-game/
 - **Quasar Framework** : Composants UI modernes
 - **Tailwind CSS 3.4** : Framework CSS utility-first
 - **Axios** : Client HTTP pour les appels API
-- **Vite** : Build tool moderne et rapide
+- **Vite 7.x** : Build tool moderne et rapide
+
+### Architecture Frontend
+- **Composants réutilisables** : Architecture modulaire avec composants Vue réutilisables
+  - `ModernCard` : Carte principale avec glassmorphism
+  - `ActionButton` : Boutons d'action standardisés
+  - `ReorderableItem` : Éléments réordonnables avec contrôles
+  - `CardItem` : Affichage de cartes individuelles
+  - `CardsGrid` : Grille de cartes avec transitions
+- **Styles partagés** : `common.css` pour les styles communs
+
+> 📖 **Documentation complète des composants** : Voir [`public/src/components/README.md`](public/src/components/README.md)
 
 ### Outils de développement
 - **Composer** : Gestionnaire de dépendances PHP
